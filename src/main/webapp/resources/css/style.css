@@ -1,0 +1,489 @@
+@charset "UTF-8";
+/* ===== Reset & Base ===== */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #f9fbfd;
+  color: #333;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===== Header ===== */
+.nav {
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.75rem 2rem;
+}
+.nav__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #2563eb;
+}
+.links a, .links span {
+  margin-left: 1rem;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+.links a:hover {
+  color: #2563eb;
+}
+
+/* ===== Footer ===== */
+.footer {
+  background: #f3f4f6;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* ===== Layout ===== */
+main {
+  padding: 2rem 0;
+  min-height: 70vh;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+.btn-secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+.btn-secondary:hover {
+  background: #d1d5db;
+}
+.btn.small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+/* ===== Hero 영역 (index) ===== */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.hero p {
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.search-box input {
+  width: 300px;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+/* ===== Section Header ===== */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  align-items: center;
+}
+.section-header h2 {
+  margin: 0;
+}
+
+/* ===== 카드 (인기글) ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  padding: 0 2rem 2rem;
+}
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+}
+.javascript { background: #facc15; color: #111827; }
+.spring { background: #10b981; color: #fff; }
+.devops { background: #3b82f6; color: #fff; }
+.card h3 {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+.card p.excerpt {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0.5rem 0 1rem;
+  line-height: 1.4;
+  height: 3.6em;           /* 두 줄까지만 표시 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card .meta {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #9ca3af;
+}
+
+/* ===== 최신글 테이블 (index, boardView) ===== */
+.table-latest, .table-board {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 2rem 2rem;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.table-latest th, .table-latest td,
+.table-board th, .table-board td {
+  padding: 0.9rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+}
+.table-latest th, .table-board th {
+  background: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+.table-latest td a, .table-board td a {
+  color: #2563eb;
+}
+.table-latest td a:hover, .table-board td a:hover {
+  text-decoration: underline;
+}
+.table-latest tr:last-child td,
+.table-board tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== 검색창 (boardView) ===== */
+.search-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 2rem;
+  align-items: center;
+}
+.search-bar select,
+.search-bar input {
+  padding: 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.search-bar select {
+  min-width: 120px;
+}
+.search-bar input {
+  flex: 1;
+}
+
+/* ===== 페이징 ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0 2rem;
+}
+.pagination a {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+.pagination a.active {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+.pagination a:hover {
+  background: #f3f4f6;
+}
+
+/* ===== 글 상세 (content) ===== */
+.content-view {
+  padding: 2rem;
+  background: #fff;
+  margin: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.content-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+.content-meta {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+.content-meta span {
+  margin-right: 1rem;
+}
+.content-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+.content-actions {
+  margin-bottom: 2rem;
+}
+.content-actions .btn {
+  margin-right: 0.5rem;
+}
+/* 이전글/다음글 */
+.content-nav {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+  margin-top: 2rem;
+}
+.content-nav div {
+  margin: 0.5rem 0;
+}
+.content-nav span {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-right: 0.5rem;
+}
+.content-nav a {
+  color: #2563eb;
+  font-size: 0.95rem;
+}
+.content-nav a:hover {
+  text-decoration: underline;
+}
+
+/* ===== 글쓰기/수정 (write/modify) ===== */
+.write-form {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.write-form h2 {
+  margin-bottom: 1.5rem;
+}
+.write-form label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: #374151;
+}
+.write-form input, 
+.write-form textarea {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.write-form textarea {
+  resize: vertical;
+}
+.write-form input:focus,
+.write-form textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* ===== 로그인 ===== */
+.login-form {
+  max-width: 400px;
+  margin: 3rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.login-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.login-form label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: #374151;
+}
+.login-form input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.login-form input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+/* textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+/* ===== 회원가입 ===== */
+.join-form {
+  max-width: 500px;
+  margin: 3rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.join-form h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.join-form label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: #374151;
+}
+.join-form input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.join-form input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+
+/* 마이페이지 */
+.mypage {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.mypage-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.profile-card {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+.profile-card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #374151;
+}
+.profile-card p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+.profile-card span {
+  font-weight: 600;
+  color: #111827;
+  margin-right: 0.5rem;
+}
+.mypage-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* 공통 form */
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.form-container label {
+  display: block;
+  margin: 0.5rem 0 0.3rem;
+  font-weight: 500;
+}
+.form-container input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+.btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+.btn-danger:hover {
+  background: #b91c1c;
+}

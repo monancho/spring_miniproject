@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <title>글 수정</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
   <jsp:include page="header.jsp"></jsp:include>

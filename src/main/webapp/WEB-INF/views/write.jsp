@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>글쓰기</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/stylde.css">
 </head>
 <body>
 
@@ -15,9 +15,13 @@
   <main>
   <section class="write-form">
     <h2>글쓰기</h2>
-    <form action="writeOk.do" method="post">
+    <form action="BBSinsertOk" method="post">
+      <input type="hidden" id="bwriter" name="bwriter" value="${sessionScope.sid}" required>
       <label for="btitle">제목</label>
       <input type="text" id="btitle" name="btitle" required>
+      
+      <label for="btitle">예약</label>
+      <input type="date" id="bdate" name="bdate" >
 
       <label for="bcontent">내용</label>
       <textarea id="bcontent" name="bcontent" rows="10" required></textarea>

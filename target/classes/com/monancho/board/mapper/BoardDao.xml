@@ -67,5 +67,10 @@
     		DELETE FROM boardtbl WHERE bnum = #{param1}
     	</delete>
     	
+    	<insert id="BBSinsert" parameterType="com.monancho.board.dto.BoardDto">
+    		INSERT INTO boardtbl (bnum ,btitle, bcontent, bwriter, bhit)
+    		VALUES(board_seq.nextval, #{btitle}, #{bcontent}, #{bwriter}, 0)
+    	</insert>
+    	
     	
     </mapper>

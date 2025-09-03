@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8">
   <title>DevCommunity - 게시판</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
 <c:url var="searchUrl" value="boardlist">
@@ -26,7 +26,7 @@
       <!-- 제목 -->
       <div class="section-header">
         <h2>게시판</h2>
-        <a href="write" class="btn btn-primary">글쓰기</a>
+        <a href="BBSinsert" class="btn btn-primary">글쓰기</a>
       </div>
 
       <!-- 검색창 -->

@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8">
   <title>DevCommunity - 홈</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/style.css">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
       <c:if test="${not empty sessionScope.sid}">${sessionScope.sid}님 오신걸 환영합니다</c:if> 
 
       <!-- 검색창 -->
-      <form class="search-box" action="boardList.do" method="get">
+      <form class="search-box" action="boardlist" method="get">
         <input type="text" name="searchKeyword" placeholder="주제, 태그, 글 제목으로 검색">
         <button type="submit" class="btn btn-primary">검색</button>
       </form>
@@ -33,19 +33,20 @@
     <section class="popular">
       <div class="section-header">
         <h2>최신글</h2>
-        <a href="boardList.do" class="view-all">전체 보기</a>
+        <a href="boardlist" class="view-all">전체 보기</a>
       </div>
 
       <div class="card-grid">
-      <c:forEach items="${boardDtos}" var="boardDto" begin="0" end="2">
+      <c:forEach items="${bDtos}" var="boardDto" begin="0" end="2">
         <div class="card">
-  
-          <h3><a href="content.do?bnum=${boardDto.bnum}">${boardDto.btitle}</a></h3>
+          <h3><a href="content?bnum=${boardDto.bnum}">${boardDto.btitle}</a></h3>
           <p class="excerpt">
             ${boardDto.bcontent}
           </p>
-          <div class="meta">작성자: ${boardDto.memberid} · 조회 ${boardDto.memberid} · ${boardDto.bdate}</div>
-        </div>
+          <div class="meta">
+          	작성자: ${boardDto.bwriter} · 조회 ${boardDto.bhit} · ${boardDto.bdate}
+          </div>
+       </div>
 	</c:forEach>
         
       </div>

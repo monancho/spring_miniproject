@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <title>게시글 보기</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="resources/css/style.css">
   <style>
     /* 이전글/다음글 좌우 배치 */
     .content-nav {
@@ -36,7 +36,7 @@
       <!-- 글 제목 -->
       <h2 class="content-title">
         <%-- 실제 데이터 --%>
-        ${boardDto.btitle}
+        ${bDto.btitle}
         <%-- 더미 데이터 확인용 --%>
       </h2>
 

@@ -22,10 +22,18 @@ public class BoardController {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	@RequestMapping("index")
+	public String index(HttpServletRequest request, Model model) {
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		List<BoardDto> boardDtos = dao.BBSselectList("btitle", "", 1, 10);
+		model.addAttribute("bDtos",boardDtos);
+		
+		return "index";
+	}
+	
 	@RequestMapping("boardlist")
 	public String boardlist(HttpServletRequest request, Model model) {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
-		Incoding incoding = new Incoding();
 		
 		String searchType = "btitle";
 				
@@ -42,7 +50,7 @@ public class BoardController {
 		
 		
 		int pageNum = 0;
-		if(request.getParameter("pageNum") != null )
+		if(request.getParameter("pageNum") != null && request.getParameter("pageNum") != "")
 		pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		if(pageNum < 0) pageNum = 0;
 		
@@ -68,8 +76,6 @@ public class BoardController {
 		model.addAttribute("endPage",endPage);
 		model.addAttribute("pageNum",pageNum);
 		
-		String utf8keyword= incoding.incoding(searchKeyword);
-		System.out.println("인코딩된검색키워드 : "+ utf8keyword);
 		
 		model.addAttribute("searchType", searchType); // 페이지 변경시 필드값 유지 - 검색타입
 		model.addAttribute("searchKeyword", searchKeyword); // 페이지 변경시 필드값 유지 - 검색 키워드
@@ -125,6 +131,22 @@ public class BoardController {
 		dao.BBSdelete(Integer.parseInt(request.getParameter("bnum")));
 		
 		return "redirect:boardlist?pageNum="+pnum;
+	}
+	@RequestMapping("BBSinsert")
+	public String BBSinsert(HttpServletRequest request, Model model,HttpSession session) {
+		
+		if(session.getAttribute("sid") != null) { // 잘못된 접근 예외 처리 (백엔드 처리)
+			return "write";
+			
+		}	else {
+			return "redirect:boardlist";}
+	}
+	@RequestMapping("BBSinsertOk")
+	public String BBSinsertOk(HttpServletRequest request, Model model, BoardDto boardDto) {
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		dao.BBSinsert(boardDto);
+		
+		return "redirect:boardlist";
 	}
 	
 
