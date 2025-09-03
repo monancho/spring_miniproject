@@ -12,7 +12,10 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+<c:url var="searchUrl" value="boardlist">
+    <c:param name="searchKeyword" value="${searchKeyword}" />
+    <c:param name="searchType" value="${searchType}" />
+</c:url>
   <!-- 헤더 -->
   <jsp:include page="header.jsp"></jsp:include>
 
@@ -79,17 +82,14 @@
       <nav class="pagination">
       <c:if test="${currentPage > 0}">
       	<a href = 
-      	"boardlist?pageNum=0&searchType=${searchType}
-		&searchKeyword=${searchKeyword}">
+      	"${searchUrl}&pageNum=0">
       		◀
       	</a>
       </c:if>
       
       <c:if test="${startPage > 1}">	
 		<a href = 
-		"boardlist?pageNum=${startPage-1}
-		&searchType=${searchType}
-		&searchKeyword=${searchKeyword}">
+		"${searchUrl}&pageNum=${startPage-1}">
 			« 이전
 		</a>
 	</c:if>
@@ -97,33 +97,29 @@
       <c:forEach begin="${startPage}" end="${endPage<=totalPage?endPage:totalPage}" var="i">	
 		<c:choose>
 			<c:when test="${i == pageNum}">	
-		<a href=
-		"boardlist?pageNum=${i}
-		&searchType=${searchType}
-		&searchKeyword=${searchKeyword}"> 
-			<b style="color:red;">
-				${i+1} 페이지 </b>
-		</a> |		
+				<a href=
+					"${searchUrl}&pageNum=${i}"> 
+					<b style="color:red;">
+						${i+1} 페이지 
+					</b>
+				</a> |		
 		</c:when>
 		<c:otherwise>		
 			<a href=
-			"boardlist?pageNum=${i}
-			&searchType=${searchType}
-			&searchKeyword=${searchKeyword}">
-		 ${i+1} 페이지 </a> |		
+			"${searchUrl}&pageNum=${i}">
+			 ${i+1} 페이지 
+			 </a> |		
 		</c:otherwise>
 		</c:choose>
 	</c:forEach>
       <c:if test="${endPage<=totalPage}">	
 		<a href = 
-		"boardlist?pageNum=${endPage + 1}
-		&searchType=${searchType}
-		&searchKeyword=${searchKeyword}">다음 »</a>
+		"${searchUrl}&pageNum=${endPage + 1}">
+			다음 »
+		</a>
 	</c:if>
       <c:if test="${currentPage < totalPage}">	
-		<a href = "boardlist?pageNum=${totalPage}
-		&searchType=${searchType}
-		&searchKeyword=${searchKeyword}">
+		<a href = "${searchUrl}&pageNum=${totalPage}">
 		▶</a>
 	</c:if>
 	</nav>

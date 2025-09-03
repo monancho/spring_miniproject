@@ -19,4 +19,6 @@ public interface BoardDao {
 
 	void BBSbhit(int bnum); // 조회수 증가
 	BoardDto BBSselectBybnum(int bnum); // 콘탠츠 보기
+	
+	
 }

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.monancho.board.dao.BoardDao;
+import com.monancho.board.dao.Incoding;
 import com.monancho.board.dto.BoardDto;
 
 
@@ -24,6 +25,7 @@ public class BoardController {
 	@RequestMapping("boardlist")
 	public String boardlist(HttpServletRequest request, Model model) {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		Incoding incoding = new Incoding();
 		
 		String searchType = "btitle";
 				
@@ -66,8 +68,12 @@ public class BoardController {
 		model.addAttribute("endPage",endPage);
 		model.addAttribute("pageNum",pageNum);
 		
+		String utf8keyword= incoding.incoding(searchKeyword);
+		System.out.println("인코딩된검색키워드 : "+ utf8keyword);
+		
 		model.addAttribute("searchType", searchType); // 페이지 변경시 필드값 유지 - 검색타입
 		model.addAttribute("searchKeyword", searchKeyword); // 페이지 변경시 필드값 유지 - 검색 키워드
+		//model.addAttribute("searchKeyword", utf8keyword); // 페이지 파라미터 인코딩 전달 - 검색 키워드
 		
 		
 		model.addAttribute("bCnt",totalBoard);
