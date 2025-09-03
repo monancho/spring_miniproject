@@ -16,6 +16,10 @@
     <c:param name="searchKeyword" value="${searchKeyword}" />
     <c:param name="searchType" value="${searchType}" />
 </c:url>
+<c:url var="contentUrl" value="content">
+    <c:param name="searchKeyword" value="${searchKeyword}" />
+    <c:param name="searchType" value="${searchType}" />
+</c:url>
   <!-- 헤더 -->
   <jsp:include page="header.jsp"></jsp:include>
 
@@ -67,7 +71,7 @@
         <c:forEach items="${bDtos}" var="boardDto">
           <tr>
             <td>${bCnt - boardDto.rnum + 1}</td>
-            <td><a href="content?bnum=${boardDto.bnum}&pageNum=${pageNum}">${boardDto.btitle}</a></td>
+            <td><a href="${contentUrl}&bnum=${boardDto.bnum}&pageNum=${pageNum}">${boardDto.btitle}</a></td>
             <td>${boardDto.bwriter}</td>
             <td>${boardDto.bhit}</td>
             <td><fmt:formatDate value="${boardDto.bdate}" pattern="yyyy-MM-dd"/></td>
@@ -99,7 +103,7 @@
 			<c:when test="${i == pageNum}">	
 				<a href=
 					"${searchUrl}&pageNum=${i}"> 
-					<b style="color:red;">
+					<b style="color:#2563eb;">
 						${i+1} 페이지 
 					</b>
 				</a> |		

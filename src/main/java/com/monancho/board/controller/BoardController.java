@@ -43,7 +43,7 @@ public class BoardController {
 		searchType = request.getParameter("searchType");
 		System.out.println("검색타입 : " + searchType);
 		if(!searchType.equals("btitle") && !searchType.equals("bcontent") && !searchType.equals("bwriter")) {
-		searchType = "btitle";}
+		searchType = "btitle";} // 예외처리
 		
 		String searchKeyword = "";
 		if(request.getParameter("searchKeyword") != null)
@@ -94,6 +94,9 @@ public class BoardController {
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 		model.addAttribute("pageNum",request.getParameter("pageNum"));
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		
+		model.addAttribute("searchType", request.getParameter("searchType"));
+		model.addAttribute("searchKeyword", request.getParameter("searchKeyword"));
 		
 		dao.BBSbhit(bnum);
 		BoardDto dto = dao.BBSselectBybnum(bnum);
@@ -226,6 +229,13 @@ public class BoardController {
 		
 		return "redirect:content?bnum="+commentDto.getBnum();
 		
+	}
+	@RequestMapping("CMTdelete")
+	public String CMTdelete(HttpServletRequest request) {
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		
+		dao.CMTdelete(Integer.parseInt(request.getParameter("cnum")));
+		return "redirect:content?bnum="+request.getParameter("bnum");
 	}
 	@RequestMapping("map")
 	public String map() {

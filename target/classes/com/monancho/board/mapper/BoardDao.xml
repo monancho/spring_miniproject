@@ -110,4 +110,8 @@
     		FROM commenttbl
     		WHERE bnum = #{param1}
     	</select>
+    	
+    	<delete id="CMTdelete">
+    		DELETE FROM commenttbl WHERE cnum = #{param1}
+    	</delete>
     </mapper>

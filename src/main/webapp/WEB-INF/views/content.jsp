@@ -79,9 +79,29 @@
     .comment-form button:hover {
       background: #1e40af;
     }
+    
+    .btn-delete {
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-delete:hover {
+  background: #b91c1c;
+}
+    
   </style>
 </head>
 <body>
+
+<c:url var="searchUrl" value="boardlist">
+    <c:param name="searchKeyword" value="${searchKeyword}" />
+    <c:param name="searchType" value="${searchType}" />
+</c:url>
   <!-- header include -->
   <jsp:include page="header.jsp"></jsp:include>
 
@@ -119,15 +139,15 @@
         <a href="BBSedit?bnum=${bDto.bnum}&pageNum=${pageNum}" class="btn btn-primary">수정</a>
         <a href="BBSdelete?bnum=${bDto.bnum}&pageNum=${pageNum}" class="btn btn-secondary">삭제</a>
        </c:if>
-        <a href="boardlist?pageNum=${pageNum}" class="btn btn-secondary">목록</a>
+        <a href="${searchUrl}&pageNum=${pageNum}" class="btn btn-secondary">목록</a>
       </div>
 
       <!-- 이전글 / 다음글 -->
-      <div class="content-nav">
+    <!--   <div class="content-nav">
         <div class="prev">
-          <span>이전글</span>
+          <span>이전글</span> 
           <!-- <a href="content.do?bnum=${preContent.bnum}"> -->
-            ${preContent.btitle}
+        <!--    ${preContent.btitle}
           </a>
         </div>
         <div class="next">
@@ -135,8 +155,8 @@
         <!--   <a href="content.do?bnum=${nextContent.bnum}">
            ${nextContent.btitle}
           </a> -->
-        </div>
-      </div>
+     <!--   </div>
+      </div> 
       
         <!-- 댓글 영역 -->
       <div class="comment-section">
@@ -156,17 +176,27 @@
       <br>
       </c:if>
       <!-- 댓글 목록 -->
-        <div class="comment-list">
-          <c:forEach var="cmt" items="${cDtos}">
-            <div class="comment">
-              <div class="comment-meta">
-                ${cmt.memberid} · ${cmt.cdate}
-              </div>
-              <div class="comment-content">
-                ${cmt.ccontent}
-              </div>
-            </div>
-          </c:forEach>
+<div class="comment-list">
+  <c:forEach var="cmt" items="${cDtos}">
+    <div class="comment">
+      <div class="comment-meta">
+        ${cmt.memberid} · ${cmt.cdate}
+        <c:if test="${sessionScope.sid eq cmt.memberid}">
+          <!-- 본인 댓글일 때만 삭제 버튼 보임 -->
+          <form action="CMTdelete" method="post" style="display:inline;">
+            <input type="hidden" name="cnum" value="${cmt.cnum}">
+            <input type="hidden" name="bnum" value="${bDto.bnum}">
+            <button type="submit" class="btn-delete">삭제</button>
+          </form>
+        </c:if>
+      </div>
+      <div class="comment-content">
+        ${cmt.ccontent}
+      </div>
+    </div>
+  </c:forEach>
+</div>
+
  
         </div>
       

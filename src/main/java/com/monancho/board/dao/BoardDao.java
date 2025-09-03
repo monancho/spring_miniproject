@@ -26,4 +26,5 @@ public interface BoardDao {
 	
 	int CMTinsert(CommentDto dto);
 	List<CommentDto> CMTselectList(int bnum);
+	int CMTdelete(int cnum);
 }
