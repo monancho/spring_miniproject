@@ -33,7 +33,7 @@
 				        SELECT b.bnum, b.btitle, b.bcontent, b.bwriter, m.membername, b.bhit, b.bdate
 				        FROM boardtbl b
 				        INNER JOIN membertbl m ON b.bwriter = m.memberid
-                        WHERE ${type} Like '%'||#{keyword}||'%'
+                        WHERE ${type} Like '%'||#{keyword}||'%' AND bdate <= SYSDATE+1
 				        ORDER BY b.bnum DESC)
 				    r WHERE ROWNUM <= #{endRow})
 				WHERE rnum >= #{startRow}
@@ -44,7 +44,7 @@
 	    		SELECT COUNT(*)
 	        	FROM boardtbl
 		        
-	            WHERE ${type} LIKE '%'||#{keyword}||'%'
+	            WHERE ${type} LIKE '%'||#{keyword}||'%' AND bdate <= SYSDATE+1
      	   ]]>
     	</select>
     	<select id="BBSselectBybnum" resultType="com.monancho.board.dto.BoardDto">
@@ -72,5 +72,42 @@
     		VALUES(board_seq.nextval, #{btitle}, #{bcontent}, #{bwriter}, 0)
     	</insert>
     	
+    	<insert id="RSVNinsert" parameterType="com.monancho.board.dto.BoardDto">
+    		INSERT INTO boardtbl (bnum ,btitle, bcontent, bwriter, bdate, bhit)
+    		VALUES(board_seq.nextval, #{btitle}, #{bcontent}, #{bwriter}, #{bdate}, 0)
+    	</insert>
     	
+    	<select id="RSVNselectList" resultMap="boardWithMember">
+    		<![CDATA[
+		    	SELECT * 
+				FROM (
+				    SELECT ROWNUM AS rnum, r.*
+				    FROM(
+				        SELECT b.bnum, b.btitle, b.bcontent, b.bwriter, m.membername, b.bhit, b.bdate
+				        FROM boardtbl b
+				        INNER JOIN membertbl m ON b.bwriter = m.memberid
+                        WHERE bdate > SYSDATE+1 AND b.bwriter = #{sid}
+				        ORDER BY b.bnum DESC)
+				    r WHERE ROWNUM <= #{endRow})
+				WHERE rnum >= #{startRow}
+			]]>
+    	</select>
+    	<select id="RSVNcount" resultType="int" >
+    		<![CDATA[
+	    		SELECT COUNT(*)
+	        	FROM boardtbl
+	            WHERE bdate > SYSDATE+1 AND bwriter = #{param1}
+     	   ]]>
+    	</select>
+    	
+    	<insert id="CMTinsert" parameterType="com.monancho.board.dto.CommentDto">
+    		INSERT INTO commenttbl (cnum ,bnum ,memberid, ccontent)
+    		VALUES(comment_seq.nextval, #{bnum}, #{memberid}, #{ccontent})
+    	</insert>
+    	
+    	<select id="CMTselectList" resultType="com.monancho.board.dto.CommentDto">
+    		SELECT *
+    		FROM commenttbl
+    		WHERE bnum = #{param1}
+    	</select>
     </mapper>

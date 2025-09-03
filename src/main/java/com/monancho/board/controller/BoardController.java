@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.AbstractDocument.Content;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.monancho.board.dao.BoardDao;
 import com.monancho.board.dao.Incoding;
 import com.monancho.board.dto.BoardDto;
+import com.monancho.board.dto.CommentDto;
 
 
 @Controller
@@ -76,17 +78,16 @@ public class BoardController {
 		model.addAttribute("endPage",endPage);
 		model.addAttribute("pageNum",pageNum);
 		
+		model.addAttribute("bCnt",totalBoard);
 		
 		model.addAttribute("searchType", searchType); // 페이지 변경시 필드값 유지 - 검색타입
 		model.addAttribute("searchKeyword", searchKeyword); // 페이지 변경시 필드값 유지 - 검색 키워드
 		//model.addAttribute("searchKeyword", utf8keyword); // 페이지 파라미터 인코딩 전달 - 검색 키워드
 		
 		
-		model.addAttribute("bCnt",totalBoard);
 		
 		List<BoardDto> boardDtos = dao.BBSselectList(searchType, searchKeyword, startRow, endRow);
-		model.addAttribute("bDtos",boardDtos);
-		
+		model.addAttribute("bDtos",boardDtos);		
 		return "boardView";
 	} @RequestMapping("content")
 		public String content(HttpServletRequest request, Model model) {
@@ -96,7 +97,9 @@ public class BoardController {
 		
 		dao.BBSbhit(bnum);
 		BoardDto dto = dao.BBSselectBybnum(bnum);
+		List<CommentDto> cDtos = dao.CMTselectList(bnum);
 		model.addAttribute("bDto",dto);
+		model.addAttribute("cDtos",cDtos);
 			return "content";
 		}
 	@RequestMapping("BBSedit")
@@ -141,6 +144,7 @@ public class BoardController {
 		}	else {
 			return "redirect:boardlist";}
 	}
+	
 	@RequestMapping("BBSinsertOk")
 	public String BBSinsertOk(HttpServletRequest request, Model model, BoardDto boardDto) {
 		BoardDao dao = sqlSession.getMapper(BoardDao.class);
@@ -148,6 +152,85 @@ public class BoardController {
 		
 		return "redirect:boardlist";
 	}
+	@RequestMapping("RSVNinsert") // 예약 이전 글은 보드에 보이지 않음
+	public String RSVNinsert(HttpServletRequest request, Model model,HttpSession session) {
+		
+		if(session.getAttribute("sid") != null) { // 잘못된 접근 예외 처리 (백엔드 처리)
+			return "RSVNwrite";
+			
+		}	else {
+			return "redirect:boardlist";}
+	}
+	@RequestMapping("RSVNinsertOk")
+	public String RSVNinsertOk(HttpServletRequest request, Model model, BoardDto boardDto) {
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		System.out.println( boardDto.getBdate());
+		
+		dao.RSVNinsert(boardDto);
+		
+		return "redirect:boardlist";
+	}
+	@RequestMapping("RSVNboard")
+	public String RSVNboard(HttpServletRequest request, Model model, HttpSession session) {
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		String sid = (String)session.getAttribute("sid");
+		
+		if(sid != null) {
+		int pageNum = 0;
+		if(request.getParameter("pageNum") != null && request.getParameter("pageNum") != "")
+		pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		if(pageNum < 0) pageNum = 0;
+		
+		int pageSize = 10;
+		int blockSize = 5;
+		
+		int totalRSVN = dao.RSVNcount(sid);
+		
+		int startRow = pageNum * pageSize + 1;
+		int endRow = startRow + pageSize - 1;	
+		
+		int totalPage = totalRSVN / pageSize;
+		int startPage = pageNum/blockSize * blockSize;
+		int endPage = (startPage + blockSize - 1);
+		
+		System.out.println("예약글 총 수 : "+ totalRSVN);
+		model.addAttribute("totalPage",totalPage);
+		model.addAttribute("startPage",startPage);
+		model.addAttribute("endPage",endPage);
+		model.addAttribute("pageNum",pageNum);
+		
+		model.addAttribute("bCnt",totalRSVN);
+		List<BoardDto> boardDtos = dao.RSVNselectList(sid, startRow, endRow);
+		model.addAttribute("bDtos",boardDtos);
+		
+		return "RSVNboard";}
+		
+		else return "redirect:index";
+		
+	} @RequestMapping("RSVNcontent")
+	public String RSVNcontent(HttpServletRequest request, Model model) {
+	int bnum = Integer.parseInt(request.getParameter("bnum"));
+	model.addAttribute("pageNum",request.getParameter("pageNum"));
+	BoardDao dao = sqlSession.getMapper(BoardDao.class);
 	
+	dao.BBSbhit(bnum);
+	BoardDto dto = dao.BBSselectBybnum(bnum);
+	model.addAttribute("bDto",dto);
+		return "RSVNcontent";
+	} 
+	@RequestMapping("CMTinsert")
+	public String CMTinsert(CommentDto commentDto) {
+		BoardDao dao = sqlSession.getMapper(BoardDao.class);
+		dao.CMTinsert(commentDto);
+		
+		
+		return "redirect:content?bnum="+commentDto.getBnum();
+		
+	}
+	@RequestMapping("map")
+	public String map() {
+		
+		return "map";
+	}
 
 }

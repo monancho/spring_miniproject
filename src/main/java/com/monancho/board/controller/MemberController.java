@@ -31,12 +31,14 @@ private SqlSession sqlSession;
 	}
 	
 	@RequestMapping("joinOk")
-	public String joinOk(HttpServletRequest request, Model model, MemberDto memberDto) {
+	public String joinOk(HttpServletRequest request, Model model, MemberDto memberDto, HttpSession session) {
 		
 		MemberDao dao = sqlSession.getMapper(MemberDao.class);
 		int joinFlag = dao.MBRinsert(memberDto);
 		
-		if(joinFlag == 1) return "redirect:index";
+		if(joinFlag == 1) { 
+			session.setAttribute("sid", memberDto.getMemberid());
+			return "redirect:index";}
 		else return "redirect:join";
 		
 	}
@@ -53,9 +55,18 @@ private SqlSession sqlSession;
 		if(loginFlag == 1) {
 			
 			session.setAttribute("sid", memberDto.getMemberid());
-			return "redirect:index";
+			model.addAttribute("msg", "로그인 성공, "+memberDto.getMemberid()+"님 환영합니다.");
+			model.addAttribute("url", "index");
+			return "alert/alert";
+			
+			//return "redirect:index";
 			}
-		else return "redirect:login";
+		else {
+		
+			model.addAttribute("msg", "로그인 실패, 아이디 및 비밀번호가 잘못 됐습니다.");
+			model.addAttribute("url", "login?error=error1");
+			//return "redirect:login";
+			return "alert/alert";}
 		
 	}
 	@RequestMapping("mypage")
@@ -67,7 +78,13 @@ private SqlSession sqlSession;
 			 model.addAttribute("mDto",mDto);
 			 return "mypage";
 		 } else { 
-			 return "redirect:login";}
+			
+				model.addAttribute("msg", "세션 만료 로그인 후 다시 시도해주세요.");
+				model.addAttribute("url", "login?error=error2");
+				return "alert/alert";
+			// return "redirect:login";
+			 
+		 }
 	}
 	@RequestMapping("MBRupdate")
 	public String MBRupdate(HttpSession session, MemberDto memberDto, Model model) {		
@@ -76,18 +93,26 @@ private SqlSession sqlSession;
 		 if(session.getAttribute("sid") != null) {
 			 MemberDto mDto = dao.MBRselectById((String)session.getAttribute("sid"));
 			 model.addAttribute("mDto", mDto);
-			 return "modifyMember";}
+			return "modifyMember";
+			 }
 		 else { 
-			 return "redirect:login";}
+			 model.addAttribute("msg", "세션 만료 로그인 후 다시 시도해주세요.");
+				model.addAttribute("url", "login?error=error2");
+				return "alert/alert";}
 	}
 	@RequestMapping("MBRUpdateOk")
 	public String MBRUpdateOk(MemberDto memberDto, Model model) {
 		MemberDao dao = sqlSession.getMapper(MemberDao.class);
 		int pwCheckFlag = dao.MBRlogin(memberDto);
 		if (pwCheckFlag == 1) {
+			
 			dao.MBRupdate(memberDto);
-			return "redirect:mypage";
-		} else return "redirect:MBRupdate";
+			model.addAttribute("msg", "회원정보 수정 완료 됐습니다.");
+			model.addAttribute("url", "mypage");
+			return "alert/alert";
+		} else {model.addAttribute("msg", "비밀번호를 다시 확인해주세요.");
+			model.addAttribute("url", "redirect:MBRupdate");
+		return "alert/alert";}
 		
 		
 	}

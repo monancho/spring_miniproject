@@ -25,6 +25,60 @@
     .content-nav .next {
       text-align: right;
     }
+    
+        .comment-section {
+      margin-top: 3rem;
+      border-top: 2px solid #e5e7eb;
+      padding-top: 1.5rem;
+    }
+    .comment-section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .comment-list {
+      margin-bottom: 1.5rem;
+    }
+    .comment {
+      padding: 0.8rem 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      background: #f9fafb;
+    }
+    .comment-meta {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 0.4rem;
+    }
+    .comment-content {
+      font-size: 0.95rem;
+      color: #374151;
+    }
+
+    /* 댓글 입력 폼 */
+    .comment-form textarea {
+      width: 100%;
+      height: 80px;
+      padding: 0.6rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      resize: vertical;
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 0.6rem;
+    }
+    .comment-form button {
+      padding: 0.5rem 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .comment-form button:hover {
+      background: #1e40af;
+    }
   </style>
 </head>
 <body>
@@ -83,6 +137,39 @@
           </a> -->
         </div>
       </div>
+      
+        <!-- 댓글 영역 -->
+      <div class="comment-section">
+        <h3>댓글</h3>
+
+        <!-- 댓글 작성 폼 -->
+        <c:if test="${not empty sessionScope.sid}">
+	        <div class="comment-form">
+	          <form action="CMTinsert" method="post">
+	            <input type="hidden" name="bnum" value="${bDto.bnum}">
+	            <input type="hidden" name="memberid" value="${sessionScope.sid}">
+	            <textarea name="ccontent" placeholder="댓글을 입력하세요..." required></textarea>
+	            <button type="submit">등록</button>
+	          </form>
+	        </div>
+	      </div>
+      <br>
+      </c:if>
+      <!-- 댓글 목록 -->
+        <div class="comment-list">
+          <c:forEach var="cmt" items="${cDtos}">
+            <div class="comment">
+              <div class="comment-meta">
+                ${cmt.memberid} · ${cmt.cdate}
+              </div>
+              <div class="comment-content">
+                ${cmt.ccontent}
+              </div>
+            </div>
+          </c:forEach>
+ 
+        </div>
+      
     </div>
   </main>
 

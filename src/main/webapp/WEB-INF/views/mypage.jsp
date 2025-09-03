@@ -24,7 +24,7 @@
       <div class="mypage-actions">
         <a href="MBRupdate" class="btn btn-primary">회원정보 수정</a>
         <a href="MBRdelete" class="btn btn-secondary">회원탈퇴</a>
-        <a href="boardlist?searchType=bwriter&searchKeyword=${mDto.memberid}" class="btn btn-primary">내가 쓴 글 보기</a>
+        <a href="RSVNboard" class="btn btn-primary">예약글 확인</a>
       </div>
     </section>
   </main>

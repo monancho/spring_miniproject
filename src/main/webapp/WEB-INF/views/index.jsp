@@ -20,7 +20,7 @@
     <section class="hero">
       <h1>개발자들이 연결되는 곳</h1>
       <p>질문하고, 배우고, 성장하세요. 한국어 기반 개발자 커뮤니티.</p>
-      <c:if test="${not empty sessionScope.sid}">${sessionScope.sid}님 오신걸 환영합니다</c:if> 
+      
 
       <!-- 검색창 -->
       <form class="search-box" action="boardlist" method="get">

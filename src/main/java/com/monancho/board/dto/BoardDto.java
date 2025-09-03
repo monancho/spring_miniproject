@@ -1,5 +1,6 @@
 package com.monancho.board.dto;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class BoardDto {
 	private String bcontent;
 	private String bwriter;
 	private int bhit;
-	private Timestamp bdate;
+	private Date bdate;
 	
 	//BoardDto : MemberDto -> 1:1 관계
 	private MemberDto memberDto;
